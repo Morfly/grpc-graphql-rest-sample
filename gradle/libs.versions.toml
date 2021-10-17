@@ -1,0 +1,125 @@
+[versions]
+ktor = "1.6.4"
+exposed = "0.35.1"
+kgraphql = "0.17.14"
+compose = "1.0.3"
+kotlin = "1.5.30"
+agp = "7.1.0-alpha02"
+protobuf = "3.17.2"
+grpcJava = "1.37.0"
+grpcKotlin = "1.1.0"
+retrofit = "2.9.0"
+koin = "3.1.2"
+apollo = "2.5.9"
+coroutines = "1.5.2"
+
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+protobuf = "com.google.protobuf:0.8.17"
+apollo = "com.apollographql.apollo:2.5.9"
+
+
+[libraries]
+# ===== server =====
+server-ktor-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+server-ktor-serialization = { module = "io.ktor:ktor-serialization", version.ref = "ktor" }
+server-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+server-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+server-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+server-ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+server-logback = "ch.qos.logback:logback-classic:1.2.6"
+server-koin = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+server-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+server-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+server-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+server-exposed-kotlinDatetime = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", version.ref = "exposed" }
+server-h2 = "com.h2database:h2:1.4.200"
+server-hikaricp = "com.zaxxer:HikariCP:3.4.2"
+server-kgraphql-core = { module = "com.apurebase:kgraphql", version.ref = "kgraphql" }
+server-kgraphql-ktor = { module = "com.apurebase:kgraphql-ktor", version.ref = "kgraphql" }
+server-grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpcJava" }
+server-grpc-netty = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpcJava" }
+# ===== server tests =====
+server-test-ktor = { module = "io.ktor:ktor-server-tests", version.ref = "ktor" }
+# ===== android =====
+android-core = "androidx.core:core-ktx:1.6.0"
+android-appcompat = "androidx.appcompat:appcompat:1.3.1"
+android-material = "com.google.android.material:material:1.4.0"
+android-lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+android-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+android-compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+android-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+android-compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+android-compsoe-activity = "androidx.activity:activity-compose:1.3.1"
+android-compose-navigation = "androidx.navigation:navigation-compose:2.4.0-alpha10"
+android-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+android-retrofit-serialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+android-httpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.2.1"
+android-kotlin-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
+android-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+android-koin-core = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+android-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+android-apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
+android-apollo-coroutines = { module = "com.apollographql.apollo:apollo-coroutines-support", version.ref = "apollo" }
+android-grpc-protobufLite = { module = "io.grpc:grpc-protobuf-lite", version.ref = "grpcJava" }
+android-protobufLite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
+android-grpc-okhttp = { module = "io.grpc:grpc-okhttp", version.ref = "grpcJava" }
+# ===== common =====
+common-kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.3.0"
+common-kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+common-grpc-kotlinStub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotlin" }
+
+
+[bundles]
+# ===== server =====
+server-exposed = [
+    "server-exposed-core",
+    "server-exposed-dao",
+    "server-exposed-jdbc",
+    "server-exposed-kotlinDatetime",
+]
+server-graphql = [
+    "server-kgraphql-core",
+    "server-kgraphql-ktor"
+]
+server-ktor = [
+    "server-ktor-netty",
+    "server-ktor-serialization",
+    "server-logback"
+]
+server-ktorClient = [
+    "server-ktor-client-core",
+    "server-ktor-client-cio",
+    "server-ktor-client-logging",
+    "server-ktor-client-serialization",
+]
+# ===== android =====
+android-core = [
+    "android-core",
+    "android-appcompat",
+    "android-material",
+    "android-lifecycle"
+]
+android-compose = [
+    "android-compose-ui",
+    "android-compose-material",
+    "android-compose-preview",
+    "android-compsoe-activity"
+]
+android-retrofit = [
+    "android-retrofit",
+    "android-retrofit-serialization",
+    "android-httpLoggingInterceptor",
+]
+android-koin = [
+    "android-koin-core",
+    "android-koin-compose"
+]
+android-apollo = [
+    "android-apollo-runtime",
+    "android-apollo-coroutines"
+]

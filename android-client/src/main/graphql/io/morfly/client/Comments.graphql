@@ -1,0 +1,48 @@
+query ListComments($postId: String!) {
+  comments(postId: $postId) {
+    id
+    content
+    postId
+  	author {
+        id
+        userName
+        displayName
+        avatarUrl
+    }
+    timestamp
+  }
+}
+
+query GetComment($commentId: String!) {
+  comment(commentId: $commentId) {
+    id
+    content
+    postId
+  	author {
+        id
+        userName
+        displayName
+        avatarUrl
+    }
+    timestamp
+  }
+}
+
+mutation CreateComment($comment: NewComment!) {
+    createComment(comment: $comment) {
+        id
+        content
+        postId
+        author {
+            id
+            userName
+            displayName
+            avatarUrl
+        }
+        timestamp
+    }
+}
+
+mutation DeleteComment($commentId: String!) {
+    deleteComment(commentId: $commentId)
+}

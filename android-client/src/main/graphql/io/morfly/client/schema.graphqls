@@ -1,0 +1,110 @@
+type User {
+  avatarUrl: String
+
+  displayName: String!
+
+  id: String!
+
+  userName: String!
+}
+
+type Post {
+  author: User!
+
+  comments: [Comment!]
+
+  content: String!
+
+  id: String!
+
+  timestamp: Timestamp!
+}
+
+type Comment {
+  author: User!
+
+  content: String!
+
+  id: String!
+
+  postId: String!
+
+  timestamp: Timestamp!
+}
+
+input NewUser {
+  avatarUrl: String
+
+  displayName: String!
+
+  userName: String!
+}
+
+input NewPost {
+  authorId: String!
+
+  content: String!
+
+  timestamp: Timestamp!
+}
+
+input NewComment {
+  authorId: String!
+
+  content: String!
+
+  postId: String!
+
+  timestamp: Timestamp!
+}
+
+"""
+The Short scalar type represents a signed 16-bit numeric non-fractional value
+"""
+scalar Short
+
+"""
+The Long scalar type represents a signed 64-bit numeric non-fractional value
+"""
+scalar Long
+
+scalar Timestamp
+
+"""
+Query object
+"""
+type Query {
+  users: [User!]!
+
+  user(userId: String!): User
+
+  posts(includeComments: Boolean! = false): [Post!]!
+
+  post(postId: String!, includeComments: Boolean! = false): Post
+
+  comments(postId: String!): [Comment!]!
+
+  comment(commentId: String!): Comment
+}
+
+"""
+Mutation object
+"""
+type Mutation {
+  createUser(user: NewUser!): User
+
+  deleteUser(userId: String!): Boolean!
+
+  createPost(post: NewPost!): Post
+
+  deletePost(postId: String!): Boolean!
+
+  createComment(comment: NewComment!): Comment
+
+  deleteComment(commentId: String!): Boolean!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

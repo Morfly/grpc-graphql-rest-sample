@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option java_package = "io.morfly.comments";
+package comments;
+
+import "google/protobuf/timestamp.proto";
+import "io/morfly/proto/users.proto";
+
+service CommentsService {
+  rpc ListComments(ListCommentsRequest) returns (stream CommentList);
+
+  rpc GetComment(GetCommentRequest) returns (CommentResponse);
+
+  rpc CreateComment(NewCommentRequest) returns (CommentResponse);
+
+  rpc DeleteComment(DeleteCommentRequest) returns (CommentDeletedResponse);
+}
+
+message ListCommentsRequest {
+  string post_id = 1;
+}
+
+message Comment {
+  string id = 1;
+  string post_id = 2;
+  users.User author = 3;
+  string content = 4;
+  google.protobuf.Timestamp timestamp = 5;
+}
+
+message CommentResponse {
+  optional Comment comment = 1;
+}
+
+message CommentList {
+  repeated Comment comments = 1;
+}
+
+message GetCommentRequest {
+  string comment_id = 1;
+}
+
+message NewCommentRequest {
+  string post_id = 1;
+  string author_id = 2;
+  string content = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}
+
+message DeleteCommentRequest {
+  string comment_id = 1;
+}
+
+message CommentDeletedResponse {
+  bool deleted = 1;
+}

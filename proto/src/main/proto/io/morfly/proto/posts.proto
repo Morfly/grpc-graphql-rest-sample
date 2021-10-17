@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option java_package = "io.morfly.posts";
+package posts;
+
+import "google/protobuf/timestamp.proto";
+import "io/morfly/proto/users.proto";
+import "io/morfly/proto/comments.proto";
+
+service PostsService {
+  rpc ListPosts(ListPostsRequest) returns (PostList);
+
+  rpc GetPost(GetPostRequest) returns (PostResponse);
+
+  rpc CreatePost(NewPostRequest) returns (PostResponse);
+
+  rpc DeletePost(DeletePostRequest) returns (PostDeletedResponse);
+}
+
+message ListPostsRequest {
+  bool includeComments = 1;
+}
+
+message Post {
+  string id = 1;
+  users.User author = 2;
+  string content = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  repeated comments.Comment comments = 5;
+}
+
+message PostResponse {
+  optional Post post = 1;
+}
+
+message PostList {
+  repeated Post posts = 1;
+}
+
+message GetPostRequest {
+  string post_id = 1;
+  bool includeComments = 2;
+}
+
+message NewPostRequest {
+  string author_id = 1;
+  string content = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message DeletePostRequest {
+  string post_id = 1;
+}
+
+message PostDeletedResponse {
+  bool deleted = 1;
+}

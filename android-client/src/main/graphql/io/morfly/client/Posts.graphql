@@ -1,0 +1,45 @@
+query ListPosts {
+  posts(includeComments: false) {
+    id
+    content
+  	author {
+        id
+        userName
+        displayName
+        avatarUrl
+    }
+    timestamp
+  }
+}
+
+query GetPost($postId: String!) {
+  post(postId: $postId) {
+    id
+    content
+  	author {
+        id
+        userName
+        displayName
+        avatarUrl
+    }
+    timestamp
+  }
+}
+
+mutation CreatePost($post: NewPost!) {
+    createPost(post: $post) {
+        id
+        content
+        author {
+            id
+            userName
+            displayName
+            avatarUrl
+        }
+        timestamp
+    }
+}
+
+mutation DeletePost($postId: String!) {
+    deletePost(postId: $postId)
+}
