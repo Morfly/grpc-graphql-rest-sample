@@ -25,7 +25,7 @@ class InternalUsersRepository(
         }
 
     override suspend fun createUser(user: NewUser): User? =
-        client.request("$DATABASE_SERVICE_ENDPOINT/rest/user/") {
+        client.request("$DATABASE_SERVICE_ENDPOINT/rest/user") {
             method = HttpMethod.Post
             header(HttpHeaders.ContentType, ContentType.Application.Json)
             body = user
