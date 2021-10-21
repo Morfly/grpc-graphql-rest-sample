@@ -5,6 +5,8 @@ import com.apollographql.apollo.coroutines.await
 import com.apollographql.apollo.exception.ApolloException
 import io.morfly.client.*
 import io.morfly.client.domain.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 
 class GraphQLPostsRepository(
@@ -100,15 +102,15 @@ class GraphQLPostsRepository(
         return response.data?.deletePost ?: false
     }
 
-    override suspend fun listComments(postId: String): List<Comment> {
+    override suspend fun listComments(postId: String): Flow<List<Comment>> {
         val response = try {
             client.query(ListCommentsQuery(postId)).await()
         } catch (e: ApolloException) {
-            return emptyList()
+            return flowOf(emptyList())
         }
 
         val comments = response.data?.comments ?: emptyList()
-        return comments.map {
+        return flowOf(comments.map {
             Comment(
                 id = it.id,
                 postId = it.postId,
@@ -121,7 +123,7 @@ class GraphQLPostsRepository(
                 content = it.content,
                 timestamp = it.timestamp
             )
-        }
+        })
     }
 
     override suspend fun getComment(commentId: String): Comment? {

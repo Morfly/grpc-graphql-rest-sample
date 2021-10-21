@@ -1,5 +1,7 @@
 package io.morfly.client.domain
 
+import kotlinx.coroutines.flow.Flow
+
 
 interface PostsRepository {
 
@@ -11,7 +13,7 @@ interface PostsRepository {
 
     suspend fun deletePost(postId: String): Boolean
 
-    suspend fun listComments(postId: String): List<Comment>
+    suspend fun listComments(postId: String): Flow<List<Comment>>
 
     suspend fun getComment(commentId: String): Comment?
 

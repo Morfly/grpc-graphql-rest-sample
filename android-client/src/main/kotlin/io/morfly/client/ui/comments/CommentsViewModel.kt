@@ -7,11 +7,11 @@ import io.morfly.client.domain.NewComment
 import io.morfly.client.domain.Post
 import io.morfly.client.domain.PostsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 
 
@@ -26,18 +26,12 @@ class CommentsViewModel(
     val comments: StateFlow<List<Comment>> = mutableComments
 
     fun fetchComments(postId: String) {
-        viewModelScope.launch {
-            withContext(coroutineContext) {
-                val post = async(Dispatchers.IO) {
-                    postsRepository.getPost(postId, includeComments = false)
-                }
-                val comments = async(Dispatchers.IO) {
-                    postsRepository.listComments(postId)
-                }
-                mutablePost.value = post.await()
-                mutableComments.value = comments.await()
-            }
-
+        viewModelScope.launch(Dispatchers.IO) {
+            mutablePost.value = postsRepository.getPost(postId, includeComments = false)
+            postsRepository
+                .listComments(postId)
+                .flowOn(Dispatchers.IO)
+                .collectLatest { mutableComments.value = it }
         }
     }
 

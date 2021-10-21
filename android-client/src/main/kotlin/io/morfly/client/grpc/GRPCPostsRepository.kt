@@ -5,6 +5,8 @@ import io.morfly.comments.Comments
 import io.morfly.comments.CommentsServiceGrpcKt
 import io.morfly.posts.Posts
 import io.morfly.posts.PostsServiceGrpcKt
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 
 class GRPCPostsRepository(
@@ -46,12 +48,13 @@ class GRPCPostsRepository(
         return postsServiceStub.deletePost(request).deleted
     }
 
-    override suspend fun listComments(postId: String): List<Comment> {
+    override suspend fun listComments(postId: String): Flow<List<Comment>> {
         val request = Comments.ListCommentsRequest.newBuilder()
             .setPostId(postId)
             .build()
 
-        return TODO()
+        return commentsServiceStub.listComments(request)
+            .map { it.commentsList.map { it.toComment() } }
     }
 
     override suspend fun getComment(commentId: String): Comment? {

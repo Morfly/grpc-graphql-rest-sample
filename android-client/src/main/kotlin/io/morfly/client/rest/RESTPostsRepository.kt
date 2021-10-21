@@ -1,6 +1,8 @@
 package io.morfly.client.rest
 
 import io.morfly.client.domain.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 
 class RESTPostsRepository(
@@ -19,8 +21,8 @@ class RESTPostsRepository(
     override suspend fun deletePost(postId: String): Boolean =
         service.deletePost(postId)
 
-    override suspend fun listComments(postId: String): List<Comment> =
-        service.listComments(postId)
+    override suspend fun listComments(postId: String): Flow<List<Comment>> =
+        flowOf(service.listComments(postId))
 
     override suspend fun getComment(commentId: String): Comment? =
         service.getComment(commentId)
